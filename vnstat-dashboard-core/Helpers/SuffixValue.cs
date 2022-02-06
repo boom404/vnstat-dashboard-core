@@ -7,7 +7,7 @@ namespace vnstat_dashboard_core.Helpers
         private static readonly string[] SizeSuffixes =
        { "bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
 
-        private static int GetScale(int i)
+        private static int GetScale(Int64 i)
         {
             var m = Math.Log(1024);
 
@@ -19,21 +19,21 @@ namespace vnstat_dashboard_core.Helpers
             return (int)scale;
         }
 
-        public static string GetSuffix(this int val)
+        public static string GetSuffix(this Int64 val)
         {
             return SizeSuffixes[GetScale(val)];   
         }
 
-        public static double GetValue(this int val, int decimals = 3)
+        public static double GetValue(this Int64 val, int decimals = 3)
         {
             return Math.Round(val / Math.Pow(1024, GetScale(val)), decimals);
         }
 
-        public static double GetBytes(this int val, int decimals = 3)
+        public static double GetBytes(this Int64 val, int decimals = 3)
         {
             return Math.Round(val / Math.Pow(1024, 2), decimals);
         }
-        public static string GetValueAndSuffix(this int val, int decimals = 3)
+        public static string GetValueAndSuffix(this Int64 val, int decimals = 3)
         {
             return String.Format("{0} {1}", GetValue(val, decimals), GetSuffix(val));
         }
