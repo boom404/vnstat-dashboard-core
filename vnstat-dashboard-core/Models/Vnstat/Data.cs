@@ -7,8 +7,8 @@ namespace vnstat_dashboard_core.Models.Vnstat
         public int id { get; set; }
         public Date date { get; set; }
         public Time time { get; set; }
-        public int rx { get; set; }
-        public int tx { get; set; }
+        public Int64 rx { get; set; }
+        public Int64 tx { get; set; }
 
 
         public DateTime GetDate()
@@ -23,7 +23,7 @@ namespace vnstat_dashboard_core.Models.Vnstat
             return getDate;
         }
 
-        public int GetTotal()
+        public Int64 GetTotal()
         {
             var total = rx + tx;
 
