@@ -185,7 +185,7 @@
             	},
                 vAxis: {
                     format: '###.### MB'
-                                    },
+                },
                 hAxis: {
 					title: 'Day/Hour (Scroll to zoom, Drag to pan)',
 					format: 'd/H',
@@ -250,7 +250,7 @@
             	},
                 vAxis: {
                     format: '###.### MB'
-                                    },
+                },
                 hAxis: {
 					title: 'Day (Scroll to zoom, Drag to pan)',
 					format: 'dd/MM/YYYY',
@@ -296,7 +296,8 @@
                     var tx = @item.tx.GetBytes(3).ToString().Replace(",",".");
                     var rx = @item.rx.GetBytes(3).ToString().Replace(",",".");
                     var total = @item.GetTotal().GetBytes(3).ToString().Replace(",",".");
-					<text>[new Date(@item.date.year, @item.date.month - 1, 10), @rx, @tx, @total],
+                    var month = @item.date.month-1;
+					<text>[new Date(@item.date.year, @month, 10), @rx, @tx, @total],
 					</text>
 				}
             ]);
@@ -313,7 +314,7 @@
                     maxZoomOut: 10.0
             	},
                 vAxis: {
-                    format: '##.## MB'
+                    format: '###.### MB'
                 },
                 hAxis: {
                     title: 'Month',
