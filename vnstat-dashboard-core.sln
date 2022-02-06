@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vnstat-dashboard-core", "vnstat-dashboard-core\vnstat-dashboard-core.csproj", "{A40DA601-6757-4D1F-BD9A-3D38B7FE0917}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A40DA601-6757-4D1F-BD9A-3D38B7FE0917}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A40DA601-6757-4D1F-BD9A-3D38B7FE0917}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A40DA601-6757-4D1F-BD9A-3D38B7FE0917}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A40DA601-6757-4D1F-BD9A-3D38B7FE0917}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E0A7DB6F-E5E6-47E7-A62D-2D9C6CB4A720}
+	EndGlobalSection
+EndGlobal

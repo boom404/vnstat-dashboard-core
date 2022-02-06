@@ -1,0 +1,338 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+
+<div class="container">
+    <ul class="nav nav-tabs" id="graphTab" role="tablist">
+        <li class="nav-item"><a class="nav-link active" id="hourly-graph-tab" data-toggle="tab" href="#hourly-graph" role="tab" aria-controls="hourly-graph" aria-selected="true">Hourly Graph</a></li>
+        <li class="nav-item"><a class="nav-link" id="daily-graph-tab" data-toggle="tab" href="#daily-graph" role="tab" aria-controls="daily-graph" aria-selected="false">Daily Graph</a></li>
+        <li class="nav-item"><a class="nav-link" id="monthly-graph-tab" data-toggle="tab" href="#monthly-graph" role="tab" aria-controls="monthly-graph" aria-selected="false">Monthly Graph</a></li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane fade show active" id="hourly-graph" role="tabpanel" aria-labelledby="hourly-graph-tab">
+            <div id="hourlyNetworkTrafficGraph" style="height: 300px;"></div>
+        </div>
+
+        <div class="tab-pane fade" id="daily-graph" role="tabpanel" aria-labelledby="daily-graph-tab">
+            <div id="dailyNetworkTrafficGraph" style="height: 300px;"></div>
+        </div>
+
+        <div class="tab-pane fade" id="monthly-graph" role="tabpanel" aria-labelledby="monthly-graph-tab">
+            <div id="monthlyNetworkTrafficGraph" style="height: 300px;"></div>
+        </div>
+    </div>
+
+    <ul class="nav nav-tabs" id="tableTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="hourly-table-tab" data-toggle="tab" href="#hourly-table" role="tab" aria-controls="hourly-table" aria-selected="true">Hourly</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="daily-table-tab" data-toggle="tab" href="#daily-table" role="tab" aria-controls="daily-table" aria-selected="false">Daily</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="monthly-table-tab" data-toggle="tab" href="#monthly-table" role="tab" aria-controls="monthly-table" aria-selected="false">Monthly</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="top10-table-tab" data-toggle="tab" href="#top10-table" role="tab" aria-controls="top10-table" aria-selected="false">Top 10</a>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="tableTabContent">
+        <div class="tab-pane fade show active" id="item-table" role="tabpanel" aria-labelledby="item-table-tab">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Hour</th>
+                        <th>Received</th>
+                        <th>Sent</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var item in @Model.CurrentInterface.traffic.hour)
+                    {
+                    <tr>
+                        <td>@item.GetDate()</td>
+                        <td>@item.rx.GetValueAndSuffix(1)</td>
+                        <td>@item.tx.GetValueAndSuffix(1)</td>
+                        <td>@item.GetTotal().GetValueAndSuffix(1)</td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="tab-pane fade" id="daily-table" role="tabpanel" aria-labelledby="daily-table-tab">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Day</th>
+                        <th>Received</th>
+                        <th>Sent</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+            @foreach(var daylie in @Model.CurrentInterface.traffic.day)
+            {
+                    <tr>
+                        <td>@daylie.GetDate().ToShortDateString()</td>
+                        <td>@daylie.rx.GetValueAndSuffix(1)</td>
+                        <td>@daylie.tx.GetValueAndSuffix(1)</td>
+                        <td>@daylie.GetTotal().GetValueAndSuffix(1)</td>
+                    </tr>
+            }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="tab-pane fade" id="monthly-table" role="tabpanel" aria-labelledby="monthly-table-tab">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Month</th>
+                        <th>Received</th>
+                        <th>Sent</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+            @foreach(var monthly in @Model.CurrentInterface.traffic.month)
+            {
+                    <tr>
+                        <td>@monthly.GetDate().ToString("MMMM yyyy")</td>
+                        <td>@monthly.rx.GetValueAndSuffix(1)</td>
+                        <td>@monthly.tx.GetValueAndSuffix(1)</td>
+                        <td>@monthly.GetTotal().GetValueAndSuffix(1)</td>
+                    </tr>
+            }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="tab-pane fade" id="top10-table" role="tabpanel" aria-labelledby="top10-table-tab">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Day</th>
+                        <th>Received</th>
+                        <th>Sent</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+            @foreach(var top10 in @Model.CurrentInterface.traffic.top)
+            {
+                    <tr>
+                        <td>@top10.GetDate().ToShortDateString()</td>
+                        <td>@top10.rx.GetValueAndSuffix(1)</td>
+                        <td>@top10.tx.GetValueAndSuffix(1)</td>
+                        <td>@top10.GetTotal().GetValueAndSuffix(1)</td>
+                    </tr>
+            }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script type="text/javascript">
+        google.charts.load('current', { packages: [ 'bar' ] });
+        google.charts.load("current", { packages: [ 'corechart' ] });
+        
+        google.charts.setOnLoadCallback(drawHourlyChart);
+        google.charts.setOnLoadCallback(drawDailyChart);
+        google.charts.setOnLoadCallback(drawMonthlyChart);
+        
+        
+        function drawHourlyChart()
+        {
+            var data = new google.visualization.DataTable();
+
+            data.addColumn('date', 'Hour');
+            data.addColumn('number', 'Traffic In');
+            data.addColumn('number', 'Traffic Out');
+            data.addColumn('number', 'Total Traffic');
+
+            data.addRows([
+				@foreach(var item in Model.CurrentInterface.traffic.hour)
+				{
+                    var tx = @item.tx.GetBytes(3).ToString().Replace(",",".");
+                    var rx = @item.rx.GetBytes(3).ToString().Replace(",",".");
+                    var total = @item.GetTotal().GetBytes(3).ToString().Replace(",",".");
+					<text>[new Date(@item.date.year, @item.date.month, @item.date.day, @item.time.hour), @rx, @tx, @total],
+					</text>
+				}
+            ]);
+
+            let endD = (new Date(@Model.CurrentInterface.traffic.hour.Last().date.year, @Model.CurrentInterface.traffic.hour.Last().date.month, @Model.CurrentInterface.traffic.hour.Last().date.day, @Model.CurrentInterface.traffic.hour.Last().time.hour)).getTime();
+
+            let options = {
+                title: 'Hourly Network Traffic',
+                orientation: 'horizontal',
+                legend: { position: 'right' },
+                explorer: { 
+                    axis: 'horizontal',
+                    zoomDelta: 1.1,
+                    maxZoomIn: 0.1,
+                    maxZoomOut: 10.0
+            	},
+                vAxis: {
+                    format: '###.### MB'
+                                    },
+                hAxis: {
+					title: 'Day/Hour (Scroll to zoom, Drag to pan)',
+					format: 'd/H',
+                    direction: -1,
+                    viewWindow: {
+                        min: 'Date('+(endD-84600000).toString()+')',
+                        max: 'Date('+(endD+1800000).toString()+')'
+                    },
+                    ticks: [
+					@foreach(var item in Model.CurrentInterface.traffic.hour)
+					{
+						<text>new Date(@item.date.year, @item.date.month, @item.date.day, @item.time.hour),
+						</text>
+					}					
+                    ]
+                }
+            };
+            
+            var formatDate = new google.visualization.DateFormat({ pattern: 'dd/MM/yyyy HH:mm' });
+            formatDate.format(data, 0);
+            
+            var formatNumber = new google.visualization.NumberFormat({ pattern: '##.## MB' });
+            formatNumber.format(data, 1);
+            formatNumber.format(data, 2);
+            formatNumber.format(data, 3);
+
+            let chart = new google.visualization.BarChart(document.getElementById('hourlyNetworkTrafficGraph'));
+            chart.draw(data, google.charts.Bar.convertOptions(options));
+        }
+
+        function drawDailyChart()
+        {
+            var data = new google.visualization.DataTable();
+
+            data.addColumn('date', 'Day');
+            data.addColumn('number', 'Traffic In');
+            data.addColumn('number', 'Traffic Out');
+            data.addColumn('number', 'Total Traffic');
+
+            data.addRows([
+				@foreach(var item in Model.CurrentInterface.traffic.day)
+				{
+                    var tx = @item.tx.GetBytes(3).ToString().Replace(",",".");
+                    var rx = @item.rx.GetBytes(3).ToString().Replace(",",".");
+                    var total = @item.GetTotal().GetBytes(3).ToString().Replace(",",".");
+					<text>[new Date(@item.date.year, @item.date.month, @item.date.day), @rx, @tx, @total],
+					</text>
+				}
+            ]);
+
+            let endD = (new Date(@Model.CurrentInterface.traffic.day.Last().date.year, @Model.CurrentInterface.traffic.day.Last().date.month, @Model.CurrentInterface.traffic.day.Last().date.day)).getTime();
+
+            let options = {
+                title: 'Daily Network Traffic',
+                orientation: 'horizontal',
+                legend: { position: 'right' },
+                explorer: { 
+                    axis: 'horizontal',
+                    zoomDelta: 1.1,
+                    maxZoomIn: 0.1,
+                    maxZoomOut: 10.0
+            	},
+                vAxis: {
+                    format: '###.### MB'
+                                    },
+                hAxis: {
+					title: 'Day (Scroll to zoom, Drag to pan)',
+					format: 'dd/MM/YYYY',
+                    direction: -1,
+                    viewWindow: {
+                        min: 'Date('+(endD-2548800000).toString()+')',
+                        max: 'Date('+(endD+43200000).toString()+')'
+                    },
+                    ticks: [
+					@foreach(var item in Model.CurrentInterface.traffic.day)
+					{
+						<text>new Date(@item.date.year, @item.date.month, @item.date.day),
+						</text>
+					}					
+                    ]
+                }
+            };
+            
+            var formatDate = new google.visualization.DateFormat({ pattern: 'dd/MM/yyyy' });
+            formatDate.format(data, 0);
+            
+            var formatNumber = new google.visualization.NumberFormat({ pattern: '##.## MB' });
+            formatNumber.format(data, 1);
+            formatNumber.format(data, 2);
+            formatNumber.format(data, 3);
+
+            let chart = new google.visualization.BarChart(document.getElementById('dailyNetworkTrafficGraph'));
+            chart.draw(data, google.charts.Bar.convertOptions(options));
+        }
+
+        function drawMonthlyChart()
+        {
+            var data = new google.visualization.DataTable();
+
+            data.addColumn('date', 'Month');
+            data.addColumn('number', 'Traffic In');
+            data.addColumn('number', 'Traffic Out');
+            data.addColumn('number', 'Total Traffic');
+
+            data.addRows([
+				@foreach(var item in Model.CurrentInterface.traffic.month)
+				{
+                    var tx = @item.tx.GetBytes(3).ToString().Replace(",",".");
+                    var rx = @item.rx.GetBytes(3).ToString().Replace(",",".");
+                    var total = @item.GetTotal().GetBytes(3).ToString().Replace(",",".");
+					<text>[new Date(@item.date.year, @item.date.month - 1, 10), @rx, @tx, @total],
+					</text>
+				}
+            ]);
+
+
+            let options = {
+                title: 'Monthly Network Traffic',
+                orientation: 'horizontal',
+                legend: { position: 'right' },
+                explorer: { 
+                    axis: 'horizontal',
+                    zoomDelta: 1.1,
+                    maxZoomIn: 0.1,
+                    maxZoomOut: 10.0
+            	},
+                vAxis: {
+                    format: '##.## MB'
+                },
+                hAxis: {
+                    title: 'Month',
+                    format: 'MMMM YYYY',
+                    direction: -1
+                }
+            };
+            
+            var formatDate = new google.visualization.DateFormat({ pattern: 'MMMM YYYY' });
+            formatDate.format(data, 0);
+            
+            var formatNumber = new google.visualization.NumberFormat({ pattern: '##.## MB' });
+            formatNumber.format(data, 1);
+            formatNumber.format(data, 2);
+            formatNumber.format(data, 3);
+
+            let chart = new google.visualization.BarChart(document.getElementById('monthlyNetworkTrafficGraph'));
+            chart.draw(data, google.charts.Bar.convertOptions(options));
+        }
+
+    </script>
+}
